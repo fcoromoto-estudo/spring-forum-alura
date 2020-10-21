@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
@@ -29,7 +30,7 @@ public class TopicoController {
     }
 
     @PostMapping
-    public ResponseEntity<TopicoDTO> incluir(@RequestBody TopicoFormDTO form, UriComponentsBuilder uriBuilder){
+    public ResponseEntity<TopicoDTO> incluir(@RequestBody @Valid TopicoFormDTO form, UriComponentsBuilder uriBuilder){
         Topico topico = form.convertToEntity(cursoRepository);
         topicoRepository.save(topico);
 
