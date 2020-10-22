@@ -18,7 +18,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.net.URI;
-import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @RestController
@@ -32,10 +32,17 @@ public class TopicoController {
     private CursoRepository cursoRepository;
 
     @GetMapping
-    public Page<TopicoDTO> listar(@RequestParam int size, @RequestParam int page){
+    public Page<TopicoDTO> listar(@RequestParam(required = false) String nomeCurso,
+                                  @RequestParam int size,
+                                  @RequestParam int page){
 
-        Pageable pageble = PageRequest.of(page, size);
-        return TopicoDTO.fromTopicos(topicoRepository.findAll(pageble));
+        Pageable pageable = PageRequest.of(page, size);
+
+        if(Objects.nonNull(nomeCurso)){
+            return TopicoDTO.fromTopicos(topicoRepository.findByCursoNome(nomeCurso, pageable));
+        }
+
+        return TopicoDTO.fromTopicos(topicoRepository.findAll(pageable));
     }
 
     @GetMapping("/{id}")
