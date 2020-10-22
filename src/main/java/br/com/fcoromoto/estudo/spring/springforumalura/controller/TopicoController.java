@@ -1,6 +1,7 @@
 package br.com.fcoromoto.estudo.spring.springforumalura.controller;
 
 import br.com.fcoromoto.estudo.spring.springforumalura.dto.TopicoDTO;
+import br.com.fcoromoto.estudo.spring.springforumalura.dto.TopicoDetalheDTO;
 import br.com.fcoromoto.estudo.spring.springforumalura.dto.TopicoFormDTO;
 import br.com.fcoromoto.estudo.spring.springforumalura.modelo.Topico;
 import br.com.fcoromoto.estudo.spring.springforumalura.repository.CursoRepository;
@@ -27,6 +28,13 @@ public class TopicoController {
     @GetMapping
     public List<TopicoDTO> listar(){
         return TopicoDTO.fromTopicos(topicoRepository.findAll());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<TopicoDetalheDTO> consultarPorId(@PathVariable Long id){
+        Topico topico = topicoRepository.getOne(id);
+        TopicoDetalheDTO topicoDetalheDTO = TopicoDetalheDTO.fromTopico(topico);
+        return ResponseEntity.ok(topicoDetalheDTO);
     }
 
     @PostMapping

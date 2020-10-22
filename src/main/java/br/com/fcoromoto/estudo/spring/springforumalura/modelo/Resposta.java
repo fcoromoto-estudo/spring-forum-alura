@@ -2,6 +2,7 @@ package br.com.fcoromoto.estudo.spring.springforumalura.modelo;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Entity
 public class Resposta {
@@ -96,4 +97,10 @@ public class Resposta {
 		this.solucao = solucao;
 	}
 
+	public String getNomeAutor() {
+		if(Objects.isNull(autor)){
+			return null;
+		}
+		return autor.getNome();
+	}
 }

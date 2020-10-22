@@ -4,6 +4,7 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 public class Topico {
@@ -124,4 +125,17 @@ public class Topico {
 		this.respostas = respostas;
 	}
 
+	public String getNomeAutor() {
+		if(Objects.isNull(autor)){
+			return null;
+		}
+		return autor.getNome();
+	}
+
+	public String getNomeCurso() {
+		if(Objects.isNull(curso)){
+			return null;
+		}
+		return curso.getNome();
+	}
 }
