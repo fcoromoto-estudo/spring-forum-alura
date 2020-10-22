@@ -1,7 +1,6 @@
 package br.com.fcoromoto.estudo.spring.springforumalura.dto;
 
 import br.com.fcoromoto.estudo.spring.springforumalura.modelo.Topico;
-import br.com.fcoromoto.estudo.spring.springforumalura.repository.TopicoRepository;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotEmpty;
@@ -32,9 +31,7 @@ public class TopicoAtualizacaoFormDTO {
         this.mensagem = mensagem;
     }
 
-    public Topico atualizar(Long id, TopicoRepository topicoRepository) {
-        Topico topico = topicoRepository.getOne(id);
-
+    public Topico atualizar(Topico topico) {
         topico.setMensagem(mensagem);
         topico.setTitulo(titulo);
 
