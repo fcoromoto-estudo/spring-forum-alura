@@ -8,6 +8,9 @@ import br.com.fcoromoto.estudo.spring.springforumalura.modelo.Topico;
 import br.com.fcoromoto.estudo.spring.springforumalura.repository.CursoRepository;
 import br.com.fcoromoto.estudo.spring.springforumalura.repository.TopicoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -29,8 +32,10 @@ public class TopicoController {
     private CursoRepository cursoRepository;
 
     @GetMapping
-    public List<TopicoDTO> listar(){
-        return TopicoDTO.fromTopicos(topicoRepository.findAll());
+    public Page<TopicoDTO> listar(@RequestParam int size, @RequestParam int page){
+
+        Pageable pageble = PageRequest.of(page, size);
+        return TopicoDTO.fromTopicos(topicoRepository.findAll(pageble));
     }
 
     @GetMapping("/{id}")

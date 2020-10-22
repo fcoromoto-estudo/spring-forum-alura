@@ -1,6 +1,7 @@
 package br.com.fcoromoto.estudo.spring.springforumalura.dto;
 
 import br.com.fcoromoto.estudo.spring.springforumalura.modelo.Topico;
+import org.springframework.data.domain.Page;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -23,8 +24,13 @@ public class TopicoDTO {
         return dto;
     }
 
+    @Deprecated
     public static List<TopicoDTO> fromTopicos(List<Topico> topicos){
         return topicos.stream().map(TopicoDTO::fromTopico).collect(Collectors.toList());
+    }
+
+    public static Page<TopicoDTO> fromTopicos(Page<Topico> topicos){
+        return topicos.map(TopicoDTO::fromTopico);
     }
 
     public String getTitulo() {
