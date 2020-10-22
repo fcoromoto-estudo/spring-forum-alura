@@ -1,5 +1,6 @@
 package br.com.fcoromoto.estudo.spring.springforumalura.controller;
 
+import br.com.fcoromoto.estudo.spring.springforumalura.dto.TopicoAtualizacaoFormDTO;
 import br.com.fcoromoto.estudo.spring.springforumalura.dto.TopicoDTO;
 import br.com.fcoromoto.estudo.spring.springforumalura.dto.TopicoDetalheDTO;
 import br.com.fcoromoto.estudo.spring.springforumalura.dto.TopicoFormDTO;
@@ -11,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
@@ -44,6 +46,13 @@ public class TopicoController {
 
         URI uri = uriBuilder.path("topicos/{id}").buildAndExpand(topico.getId()).toUri();
         return ResponseEntity.created(uri).body(TopicoDTO.fromTopico(topico));
+    }
+
+    @Transactional
+    @PutMapping("/{id}")
+    public ResponseEntity<TopicoDTO> atualizar(@PathVariable Long id, @RequestBody @Valid TopicoAtualizacaoFormDTO form){
+        Topico topico = form.atualizar(id, topicoRepository);
+        return ResponseEntity.ok(TopicoDTO.fromTopico(topico));
     }
 
 }
