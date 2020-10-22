@@ -39,6 +39,7 @@ public class TopicoController {
         return ResponseEntity.ok(topicoDetalheDTO);
     }
 
+    @Transactional
     @PostMapping
     public ResponseEntity<TopicoDTO> incluir(@RequestBody @Valid TopicoFormDTO form, UriComponentsBuilder uriBuilder){
         Topico topico = form.convertToEntity(cursoRepository);
@@ -53,6 +54,13 @@ public class TopicoController {
     public ResponseEntity<TopicoDTO> atualizar(@PathVariable Long id, @RequestBody @Valid TopicoAtualizacaoFormDTO form){
         Topico topico = form.atualizar(id, topicoRepository);
         return ResponseEntity.ok(TopicoDTO.fromTopico(topico));
+    }
+
+    @Transactional
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> remover(@PathVariable Long id){
+        topicoRepository.deleteById(id);
+        return ResponseEntity.ok().build();
     }
 
 }
