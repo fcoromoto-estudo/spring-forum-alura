@@ -8,6 +8,7 @@ import br.com.fcoromoto.estudo.spring.springforumalura.modelo.Topico;
 import br.com.fcoromoto.estudo.spring.springforumalura.repository.CursoRepository;
 import br.com.fcoromoto.estudo.spring.springforumalura.repository.TopicoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -60,8 +61,9 @@ public class TopicoController {
         return ResponseEntity.ok(topicoDetalheDTO);
     }
 
-    @Transactional
     @PostMapping
+    @Transactional
+    @CacheEvict(value = "topicos", allEntries = true)
     public ResponseEntity<TopicoDTO> incluir(@RequestBody @Valid TopicoFormDTO form, UriComponentsBuilder uriBuilder){
         Topico topico = form.convertToEntity(cursoRepository);
         topicoRepository.save(topico);
@@ -70,8 +72,9 @@ public class TopicoController {
         return ResponseEntity.created(uri).body(TopicoDTO.fromTopico(topico));
     }
 
-    @Transactional
     @PutMapping("/{id}")
+    @Transactional
+    @CacheEvict(value = "topicos", allEntries = true)
     public ResponseEntity<TopicoDTO> atualizar(@PathVariable Long id, @RequestBody @Valid TopicoAtualizacaoFormDTO form){
         Optional<Topico> topicoOptional = topicoRepository.findById(id);
 
@@ -83,8 +86,9 @@ public class TopicoController {
         return ResponseEntity.ok(TopicoDTO.fromTopico(topico));
     }
 
-    @Transactional
     @DeleteMapping("/{id}")
+    @Transactional
+    @CacheEvict(value = "topicos", allEntries = true)
     public ResponseEntity<?> remover(@PathVariable Long id){
         Optional<Topico> topicoOptional = topicoRepository.findById(id);
 
