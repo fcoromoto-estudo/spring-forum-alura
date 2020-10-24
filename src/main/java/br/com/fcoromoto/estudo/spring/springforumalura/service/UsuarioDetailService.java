@@ -1,4 +1,4 @@
-package br.com.fcoromoto.estudo.spring.springforumalura.config.security;
+package br.com.fcoromoto.estudo.spring.springforumalura.service;
 
 import br.com.fcoromoto.estudo.spring.springforumalura.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
