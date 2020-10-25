@@ -42,10 +42,10 @@ public class TopicoController {
 
 
         if(Objects.nonNull(nomeCurso)){
-            return TopicoDTO.fromTopicos(topicoRepository.findByCursoNome(nomeCurso, pageable));
+            return TopicoDTO.of(topicoRepository.findByCursoNome(nomeCurso, pageable));
         }
 
-        return TopicoDTO.fromTopicos(topicoRepository.findAll(pageable));
+        return TopicoDTO.of(topicoRepository.findAll(pageable));
     }
 
     @GetMapping("/{id}")
@@ -57,7 +57,7 @@ public class TopicoController {
         }
 
         Topico topico = topicoOptional.get();
-        TopicoDetalheDTO topicoDetalheDTO = TopicoDetalheDTO.fromTopico(topico);
+        TopicoDetalheDTO topicoDetalheDTO = TopicoDetalheDTO.of(topico);
         return ResponseEntity.ok(topicoDetalheDTO);
     }
 
@@ -65,11 +65,12 @@ public class TopicoController {
     @Transactional
     @CacheEvict(value = "topicos", allEntries = true)
     public ResponseEntity<TopicoDTO> incluir(@RequestBody @Valid TopicoFormDTO form, UriComponentsBuilder uriBuilder){
-        Topico topico = form.convertToEntity(cursoRepository);
+        Topico topico = form.convertToEntity(() -> cursoRepository.findByNome(form.getCurso()));
+
         topicoRepository.save(topico);
 
         URI uri = uriBuilder.path("topicos/{id}").buildAndExpand(topico.getId()).toUri();
-        return ResponseEntity.created(uri).body(TopicoDTO.fromTopico(topico));
+        return ResponseEntity.created(uri).body(TopicoDTO.of(topico));
     }
 
     @PutMapping("/{id}")
@@ -83,7 +84,7 @@ public class TopicoController {
         }
 
         Topico topico = form.atualizar(topicoOptional.get());
-        return ResponseEntity.ok(TopicoDTO.fromTopico(topico));
+        return ResponseEntity.ok(TopicoDTO.of(topico));
     }
 
     @DeleteMapping("/{id}")

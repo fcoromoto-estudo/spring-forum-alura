@@ -2,6 +2,7 @@ package br.com.fcoromoto.estudo.spring.springforumalura.dto;
 
 import br.com.fcoromoto.estudo.spring.springforumalura.modelo.StatusTopico;
 import br.com.fcoromoto.estudo.spring.springforumalura.modelo.Topico;
+import lombok.Getter;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -9,6 +10,7 @@ import java.util.Objects;
 
 import static java.util.stream.Collectors.toList;
 
+@Getter
 public class TopicoDetalheDTO {
 
     private Long id;
@@ -21,7 +23,7 @@ public class TopicoDetalheDTO {
     private List<RespostaDetalheDTO> respostas;
 
 
-    public static TopicoDetalheDTO fromTopico(Topico topico){
+    public static TopicoDetalheDTO of(Topico topico){
         TopicoDetalheDTO dto = new TopicoDetalheDTO();
         dto.titulo = topico.getTitulo();
         dto.id = topico.getId();
@@ -36,37 +38,5 @@ public class TopicoDetalheDTO {
         }
 
         return dto;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getTitulo() {
-        return titulo;
-    }
-
-    public String getMensagem() {
-        return mensagem;
-    }
-
-    public LocalDateTime getDataCriacao() {
-        return dataCriacao;
-    }
-
-    public StatusTopico getStatus() {
-        return status;
-    }
-
-    public String getAutor() {
-        return autor;
-    }
-
-    public String getCurso() {
-        return curso;
-    }
-
-    public List<RespostaDetalheDTO> getRespostas() {
-        return respostas;
     }
 }

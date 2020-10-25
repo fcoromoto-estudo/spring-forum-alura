@@ -30,7 +30,7 @@ public class ResourceErrorAdvice {
         erros.forEach(fieldError -> {
             String mensagem = messageSource.getMessage(fieldError, LocaleContextHolder.getLocale());
             String campo = fieldError.getField();
-            errosDTO.add(new ErroFormDTO(campo, mensagem));
+            errosDTO.add(ErroFormDTO.of(campo, mensagem));
         });
 
         return errosDTO;
