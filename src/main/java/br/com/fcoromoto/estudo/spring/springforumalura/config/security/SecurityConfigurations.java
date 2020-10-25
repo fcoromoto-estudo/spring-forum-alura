@@ -1,5 +1,7 @@
 package br.com.fcoromoto.estudo.spring.springforumalura.config.security;
 
+import br.com.fcoromoto.estudo.spring.springforumalura.repository.UsuarioRepository;
+import br.com.fcoromoto.estudo.spring.springforumalura.service.TokenService;
 import br.com.fcoromoto.estudo.spring.springforumalura.service.UsuarioDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -21,6 +23,12 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private UsuarioDetailService usuarioDetailService;
+
+    @Autowired
+    private TokenService tokenService;
+
+    @Autowired
+    private UsuarioRepository usuarioRepository;
 
     @Bean
     @Override
@@ -46,7 +54,8 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
                 .and().csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and().addFilterBefore(new AutenticacaoFilter(), UsernamePasswordAuthenticationFilter.class);
+                .and().addFilterBefore(new AutenticacaoFilter(tokenService, usuarioRepository),
+                                       UsernamePasswordAuthenticationFilter.class);
     }
 
     // Responsável pelo controle estaticos ( css, js, imagens )
