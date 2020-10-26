@@ -4,6 +4,7 @@ import br.com.fcoromoto.estudo.spring.springforumalura.dto.ErroFormDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -41,11 +42,12 @@ public class ResourceErrorAdvice {
     @ResponseStatus(code = HttpStatus.NOT_FOUND)
     @ExceptionHandler(EntityNotFoundException.class)
     public String handle(EntityNotFoundException exception){
+        return "Recurso não encontrado";
+    }
 
-        if(exception.getMessage() != null){
-            return exception.getMessage();
-        }
-
+    @ResponseStatus(code = HttpStatus.NOT_FOUND)
+    @ExceptionHandler(EmptyResultDataAccessException.class)
+    public String handle(EmptyResultDataAccessException exception){
         return "Recurso não encontrado";
     }
 }

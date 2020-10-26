@@ -15,7 +15,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.util.Objects;
@@ -72,7 +71,6 @@ public class TopicoService {
     @Transactional
     @CacheEvict(value = "topicos", allEntries = true)
     public void remover(@PathVariable Long id){
-        topicoRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Tópico "+id+" não encontrado"));
         topicoRepository.deleteById(id);
     }
 }
