@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,5 +36,16 @@ public class ResourceErrorAdvice {
 
         return errosDTO;
 
+    }
+
+    @ResponseStatus(code = HttpStatus.NOT_FOUND)
+    @ExceptionHandler(EntityNotFoundException.class)
+    public String handle(EntityNotFoundException exception){
+
+        if(exception.getMessage() != null){
+            return exception.getMessage();
+        }
+
+        return "Recurso não encontrado";
     }
 }
