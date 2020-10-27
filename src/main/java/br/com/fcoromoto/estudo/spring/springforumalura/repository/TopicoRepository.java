@@ -12,6 +12,6 @@ public interface TopicoRepository extends JpaRepository<Topico, Long> {
 
     Page<Topico> findByCursoNome(String nomeCurso, Pageable pageble);
 
-    @Query(value = "Select t.id  from Topico t where t.id = :id")
+    @Query(value = "Select t.id from Topico t where t.id = :id")
     Optional<Long> isPresent(Long id);
 }
