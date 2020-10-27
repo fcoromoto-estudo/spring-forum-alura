@@ -61,5 +61,13 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
 
     // Responsável pelo controle estaticos ( css, js, imagens )
     @Override
-    public void configure(WebSecurity web) throws Exception {}
+    public void configure(WebSecurity web) throws Exception {
+        web
+        .ignoring()
+        .antMatchers("/**.html",
+                                    "/v2/api-docs",
+                                    "/webjars/**",
+                                    "/configuration/**",
+                                    "/swagger-resources/**");
+    }
 }
